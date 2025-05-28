@@ -402,6 +402,7 @@
         </div>
     </footer>
     
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         // Функционал генератора визиток
         document.getElementById('generate-btn').addEventListener('click', function() {
@@ -427,10 +428,33 @@
         
         // Функция для скачивания визитки
         document.getElementById('download-btn').addEventListener('click', function() {
-            alert('В реальном проекте здесь будет использоваться html2canvas.js для преобразования визитки в изображение и его скачивания');
-            // Пример реализации с html2canvas:
-            /*
-            html2canvas(document.getElementById('vcard-preview')).then(canvas => {
+            const vcardElement = document.getElementById('vcard-preview');
+            
+            // Настройки для html2canvas
+            const options = {
+                scale: 2, // Увеличиваем масштаб для лучшего качества
+                logging: false, // Отключаем логирование
+                useCORS: true, // Разрешаем кросс-доменные ресурсы
+                allowTaint: true, // Разрешаем "загрязнение" canvas
+                backgroundColor: null // Прозрачный фон
+            };
+            
+            // Создаем изображение из HTML-элемента
+            html2canvas(vcardElement, options).then(canvas => {
+                // Создаем ссылку для скачивания
                 const link = document.createElement('a');
                 link.download = 'моя-визитка.png';
-                link.href = canvas.toData
+                link.href = canvas.toDataURL('image/png');
+                
+                // Программно кликаем по ссылке для скачивания
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }).catch(err => {
+                console.error('Ошибка при создании изображения:', err);
+                alert('Произошла ошибка при создании изображения. Пожалуйста, попробуйте снова.');
+            });
+        });
+    </script>
+</body>
+</html>
