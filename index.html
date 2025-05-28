@@ -1,1 +1,436 @@
-<h1> hi </h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardGen - Генератор мини-визиток</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        /* Основной контент */
+        .hero {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Особенности */
+        .features {
+            padding: 50px 0;
+            background-color: white;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h3 {
+            color: #6e8efb;
+            margin-bottom: 15px;
+        }
+        
+        /* Генератор визиток */
+        .generator {
+            padding: 50px 0;
+            background-color: #f0f4ff;
+        }
+        
+        .generator-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+        
+        .preview-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .vcard {
+            width: 350px;
+            height: 200px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vcard h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .vcard p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .vcard .title {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .vcard .contacts {
+            margin-top: 20px;
+        }
+        
+        /* О нас */
+        .about {
+            padding: 50px 0;
+            background-color: white;
+        }
+        
+        .about h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        .team {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .team-member {
+            text-align: center;
+            max-width: 250px;
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid #f0f4ff;
+        }
+        
+        /* Контакты */
+        .contact {
+            padding: 50px 0;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .contact p {
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .generator-container {
+                flex-direction: column;
+            }
+            
+            .vcard {
+                width: 300px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/60" alt="CardGen Logo">
+                <h1>CardGen</h1>
+            </div>
+            <p>Создайте профессиональную мини-визитку за минуту</p>
+        </div>
+    </header>
+    
+    <!-- Основной контент -->
+    <section class="hero">
+        <div class="container">
+            <h2>Цифровые визитки для современного мира</h2>
+            <p>CardGen позволяет быстро создать стильную мини-визитку, которую можно использовать в мессенджерах, соцсетях или как подпись в email. Никаких сложных программ - просто введите данные и скачайте готовую карточку.</p>
+        </div>
+    </section>
+    
+    <!-- Особенности -->
+    <section class="features">
+        <div class="container">
+            <h2>Почему выбирают нас</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Быстро</h3>
+                    <p>Создайте визитку всего за 1 минуту. Никаких сложных настроек и обучения.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Просто</h3>
+                    <p>Интуитивно понятный интерфейс. Не нужно быть дизайнером, чтобы получить красивый результат.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Доступно</h3>
+                    <p>Бесплатный базовый функционал. Платите только за дополнительные премиум-шаблоны.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Генератор визиток -->
+    <section class="generator">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 30px;">Создайте свою визитку</h2>
+            <div class="generator-container">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" placeholder="Иван Иванов">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Должность/специальность</label>
+                        <input type="text" id="title" placeholder="Веб-дизайнер">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" placeholder="+7 (999) 123-45-67">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="ivan@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="social">Соцсети/мессенджеры</label>
+                        <textarea id="social" rows="3" placeholder="Telegram: @ivanov\nInstagram: @ivan.design"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Цветовая схема</label>
+                        <select id="color">
+                            <option value="linear-gradient(135deg, #6e8efb, #a777e3)">Фиолетовый</option>
+                            <option value="linear-gradient(135deg, #4facfe, #00f2fe)">Голубой</option>
+                            <option value="linear-gradient(135deg, #f093fb, #f5576c)">Розовый</option>
+                            <option value="linear-gradient(135deg, #43e97b, #38f9d7)">Зеленый</option>
+                        </select>
+                    </div>
+                    <button id="generate-btn">Создать визитку</button>
+                </div>
+                
+                <div class="preview-section">
+                    <div class="vcard" id="vcard-preview">
+                        <h3 id="preview-name">Иван Иванов</h3>
+                        <p class="title" id="preview-title">Веб-дизайнер</p>
+                        <div class="contacts">
+                            <p id="preview-phone">+7 (999) 123-45-67</p>
+                            <p id="preview-email">ivan@example.com</p>
+                            <p id="preview-social">Telegram: @ivanov</p>
+                        </div>
+                    </div>
+                    <button id="download-btn" disabled>Скачать визитку</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- О нас -->
+    <section class="about">
+        <div class="container">
+            <h2>Наша команда</h2>
+            <div class="team">
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/150" alt="Алексей Петров">
+                    <h3>Алексей Петров</h3>
+                    <p>Основатель, разработчик</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/150" alt="Мария Сидорова">
+                    <h3>Мария Сидорова</h3>
+                    <p>Дизайнер</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/150" alt="Дмитрий Иванов">
+                    <h3>Дмитрий Иванов</h3>
+                    <p>Маркетолог</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Контакты -->
+    <section class="contact">
+        <div class="container">
+            <h2>Свяжитесь с нами</h2>
+            <p>Есть вопросы или предложения? Напишите нам, и мы обязательно ответим!</p>
+            <button onclick="window.location.href='mailto:info@cardgen.ru'">Написать письмо</button>
+        </div>
+    </section>
+    
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <p>© 2023 CardGen. Все права защищены.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Функционал генератора визиток
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            // Получаем значения из формы
+            const name = document.getElementById('name').value || 'Иван Иванов';
+            const title = document.getElementById('title').value || 'Специалист';
+            const phone = document.getElementById('phone').value || '+7 (999) 123-45-67';
+            const email = document.getElementById('email').value || 'example@mail.com';
+            const social = document.getElementById('social').value || 'Telegram: @username';
+            const color = document.getElementById('color').value;
+            
+            // Обновляем превью
+            document.getElementById('preview-name').textContent = name;
+            document.getElementById('preview-title').textContent = title;
+            document.getElementById('preview-phone').textContent = phone;
+            document.getElementById('preview-email').textContent = email;
+            document.getElementById('preview-social').textContent = social;
+            document.getElementById('vcard-preview').style.background = color;
+            
+            // Активируем кнопку скачивания
+            document.getElementById('download-btn').disabled = false;
+        });
+        
+        // Функция для скачивания визитки
+        document.getElementById('download-btn').addEventListener('click', function() {
+            alert('В реальном проекте здесь будет использоваться html2canvas.js для преобразования визитки в изображение и его скачивания');
+            // Пример реализации с html2canvas:
+            /*
+            html2canvas(document.getElementById('vcard-preview')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'моя-визитка.png';
+                link.href = canvas.toData
